@@ -20,6 +20,8 @@ def main():
     originalImage = cv2.imread('Images/retryQuest.png')
     newImage = cv2.resize(originalImage, (0, 0), fx=proportion[0], fy=proportion[1])
     cv2.imwrite('Images/retryQuestresize.png', newImage)
+    print("Waiting 10 seconds")
+    time.sleep(10)
     while True:
         try:
             lobby = pyautogui.locateOnScreen('Images/lobbyresize.png', confidence=0.6)
@@ -46,33 +48,33 @@ def main():
 def Lobby():
     print("In Lobby")
     pydirectinput.press("r")
-    time.sleep(.25)
+    time.sleep(.5)
     pydirectinput.press("enter")
-    time.sleep(.25)
+    time.sleep(.5)
     pydirectinput.press("enter")
     time.sleep(1)
     pydirectinput.press("w",presses=5)
-    time.sleep(.25)
+    time.sleep(.5)
     #At this point, we are in the quest counter
     pydirectinput.press("f")
-    time.sleep(.25)
+    time.sleep(.5)
     #At this point, we are in the quest selection
     pydirectinput.press("enter")
-    time.sleep(.25)
+    time.sleep(.5)
     #At this point, we are 
     pydirectinput.press("enter")
-    time.sleep(.25)
+    time.sleep(.5)
     pydirectinput.press("enter")
-    time.sleep(.25)
+    time.sleep(.5)
     pydirectinput.press("enter")
-    time.sleep(.25)
+    time.sleep(.5)
     pydirectinput.press("enter")
-    time.sleep(.25)
+    time.sleep(.5)
     pydirectinput.press("enter")
     #Accepted quest
     time.sleep(2)
     pydirectinput.press("3")
-    time.sleep(.25)
+    time.sleep(.5)
     pydirectinput.press("enter")
 
 
