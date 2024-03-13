@@ -10,7 +10,7 @@ from PIL import Image
 
 def main():
     currentSize = pyautogui.size()
-    proportion = (3840/currentSize[0], 2160/currentSize[1])
+    proportion = (currentSize[0]/3840, currentSize[1]/2160)
     originalImage = cv2.imread('Images/lobby.png')
     newImage = cv2.resize(originalImage, (0, 0), fx=proportion[0], fy=proportion[1])
     cv2.imwrite('Images/lobbyresize.png', newImage)
@@ -34,7 +34,7 @@ def main():
         except pyautogui.ImageNotFoundException:
             print("Don't need to retry")
         try:
-            battleResult = pyautogui.locateOnScreen('Images/battleResultresize.png', confidence=0.9)
+            battleResult = pyautogui.locateOnScreen('Images/battleResultresize.png', confidence=0.6)
             pydirectinput.press("enter")
         except pyautogui.ImageNotFoundException:
             print("Not in Battle Result")
