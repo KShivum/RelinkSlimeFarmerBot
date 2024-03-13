@@ -1,25 +1,42 @@
 from enum import Enum
 
+import cv2
 import pyautogui
 import pydirectinput
 import time
 
+from PIL import Image
+
+
 def main():
+    currentSize = pyautogui.size()
+    proportion = (currentSize[0]/3840, currentSize[1]/2160)
+    originalImage = cv2.imread('Images/lobby.png')
+    newImage = cv2.resize(originalImage, (0, 0), fx=proportion[0], fy=proportion[1])
+    cv2.imwrite('Images/lobbyresize.png', newImage)
+    originalImage = cv2.imread('Images/battleResult.png')
+    newImage = cv2.resize(originalImage, (0, 0), fx=proportion[0], fy=proportion[1])
+    cv2.imwrite('Images/battleResultresize.png', newImage)
+    originalImage = cv2.imread('Images/retryQuest.png')
+    newImage = cv2.resize(originalImage, (0, 0), fx=proportion[0], fy=proportion[1])
+    cv2.imwrite('Images/retryQuestresize.png', newImage)
+    print("Waiting 10 seconds")
+    time.sleep(10)
     while True:
         try:
-            lobby = pyautogui.locateOnScreen('Images/lobby.png', confidence=0.6)
+            lobby = pyautogui.locateOnScreen('Images/lobbyresize.png', confidence=0.6)
             Lobby()
         except pyautogui.ImageNotFoundException:
             print("Not in Lobby")
         try:
-            retry = pyautogui.locateOnScreen('Images/retryQuest.png', confidence=0.6)
+            retry = pyautogui.locateOnScreen('Images/retryQuestresize.png', confidence=0.6)
             pydirectinput.press("3")
             time.sleep(.25)
             pydirectinput.press("enter")
         except pyautogui.ImageNotFoundException:
             print("Don't need to retry")
         try:
-            battleResult = pyautogui.locateOnScreen('Images/battleResult.png', confidence=0.9)
+            battleResult = pyautogui.locateOnScreen('Images/battleResultresize.png', confidence=0.6)
             pydirectinput.press("enter")
         except pyautogui.ImageNotFoundException:
             print("Not in Battle Result")
@@ -28,76 +45,38 @@ def main():
             pydirectinput.mouseUp(button='left')
 
 
-def BattleResult():
-    try:
-        while True:
-            battleResult = pyautogui.locateOnScreen('Images/battleResultPart1.png', confidence=0.7)
-            pyautogui.click(clicks=2, interval=0.5)
-    except pyautogui.ImageNotFoundException:
-        print("Not in Battle Result part 1")
-    try:
-        battleResult = pyautogui.locateOnScreen('Images/retryQuest.png', confidence=0.7)
-        pyautogui.press("3")
-        pyautogui.press("enter")
-    except pyautogui.ImageNotFoundException:
-        print("Don't need to retry")
-    pyautogui.press("enter")
-    pyautogui.press("enter")
-
-def GetCurrentState():
-    try:
-        lobby = pyautogui.locateOnScreen('Images/lobby.png', confidence=0.5)
-        Lobby()
-    except pyautogui.ImageNotFoundException:
-        print("Not in Lobby")
-    try:
-        battleResult = pyautogui.locateOnScreen('Images/battleResult.png', confidence=0.9)
-        return GameState.BattleResult
-    except pyautogui.ImageNotFoundException:
-        print("Not in Battle Result")
-    
-    return GameState.Other
-
 def Lobby():
     print("In Lobby")
     pydirectinput.press("r")
-    time.sleep(.25)
+    time.sleep(.5)
     pydirectinput.press("enter")
-    time.sleep(.25)
+    time.sleep(.5)
     pydirectinput.press("enter")
     time.sleep(1)
     pydirectinput.press("w",presses=5)
-    time.sleep(.25)
+    time.sleep(.5)
     #At this point, we are in the quest counter
     pydirectinput.press("f")
-    time.sleep(.25)
+    time.sleep(.5)
     #At this point, we are in the quest selection
     pydirectinput.press("enter")
-    time.sleep(.25)
+    time.sleep(.5)
     #At this point, we are 
     pydirectinput.press("enter")
-    time.sleep(.25)
+    time.sleep(.5)
     pydirectinput.press("enter")
-    time.sleep(.25)
+    time.sleep(.5)
     pydirectinput.press("enter")
-    time.sleep(.25)
+    time.sleep(.5)
     pydirectinput.press("enter")
-    time.sleep(.25)
+    time.sleep(.5)
     pydirectinput.press("enter")
     #Accepted quest
     time.sleep(2)
     pydirectinput.press("3")
-    time.sleep(.25)
+    time.sleep(.5)
     pydirectinput.press("enter")
-
-    
 
 
 if __name__ == "__main__":
     main()
-
-
-class GameState(Enum):
-    Lobby = 1
-    BattleResult = 2
-    Other = 3
