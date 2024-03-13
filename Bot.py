@@ -4,22 +4,36 @@ import pyautogui
 import pydirectinput
 import time
 
+from PIL import Image
+
+
 def main():
+    currentSize = pyautogui.size()
+    proportion = (3840/currentSize[0], 2160/currentSize[1])
+    originalImage = Image.open('Images/lobby.png')
+    newImage = originalImage.resize((originalImage.size[0] * proportion[0], originalImage.size[1] * proportion[1]), Image.Resampling.BICUBIC)
+    newImage.save('Images/lobbyresize.png')
+    originalImage = Image.open('Images/battleResult.png')
+    newImage = originalImage.resize((originalImage.size[0] * proportion[0], originalImage.size[1] * proportion[1]), Image.Resampling.BICUBIC)
+    newImage.save('Images/battleResultresize.png')
+    originalImage = Image.open('Images/retryQuest.png')
+    newImage = originalImage.resize((originalImage.size[0] * proportion[0], originalImage.size[1] * proportion[1]), Image.Resampling.BICUBIC)
+    newImage.save('Images/retryQuestresize.png')
     while True:
         try:
-            lobby = pyautogui.locateOnScreen('Images/lobby.png', confidence=0.6)
+            lobby = pyautogui.locateOnScreen('Images/lobbyresize.png', confidence=0.6)
             Lobby()
         except pyautogui.ImageNotFoundException:
             print("Not in Lobby")
         try:
-            retry = pyautogui.locateOnScreen('Images/retryQuest.png', confidence=0.6)
+            retry = pyautogui.locateOnScreen('Images/retryQuestresize.png', confidence=0.6)
             pydirectinput.press("3")
             time.sleep(.25)
             pydirectinput.press("enter")
         except pyautogui.ImageNotFoundException:
             print("Don't need to retry")
         try:
-            battleResult = pyautogui.locateOnScreen('Images/battleResult.png', confidence=0.9)
+            battleResult = pyautogui.locateOnScreen('Images/battleResultresize.png', confidence=0.9)
             pydirectinput.press("enter")
         except pyautogui.ImageNotFoundException:
             print("Not in Battle Result")
@@ -27,36 +41,6 @@ def main():
             pydirectinput.mouseDown(button='left')
             pydirectinput.mouseUp(button='left')
 
-
-def BattleResult():
-    try:
-        while True:
-            battleResult = pyautogui.locateOnScreen('Images/battleResultPart1.png', confidence=0.7)
-            pyautogui.click(clicks=2, interval=0.5)
-    except pyautogui.ImageNotFoundException:
-        print("Not in Battle Result part 1")
-    try:
-        battleResult = pyautogui.locateOnScreen('Images/retryQuest.png', confidence=0.7)
-        pyautogui.press("3")
-        pyautogui.press("enter")
-    except pyautogui.ImageNotFoundException:
-        print("Don't need to retry")
-    pyautogui.press("enter")
-    pyautogui.press("enter")
-
-def GetCurrentState():
-    try:
-        lobby = pyautogui.locateOnScreen('Images/lobby.png', confidence=0.5)
-        Lobby()
-    except pyautogui.ImageNotFoundException:
-        print("Not in Lobby")
-    try:
-        battleResult = pyautogui.locateOnScreen('Images/battleResult.png', confidence=0.9)
-        return GameState.BattleResult
-    except pyautogui.ImageNotFoundException:
-        print("Not in Battle Result")
-    
-    return GameState.Other
 
 def Lobby():
     print("In Lobby")
@@ -90,14 +74,6 @@ def Lobby():
     time.sleep(.25)
     pydirectinput.press("enter")
 
-    
-
 
 if __name__ == "__main__":
     main()
-
-
-class GameState(Enum):
-    Lobby = 1
-    BattleResult = 2
-    Other = 3
