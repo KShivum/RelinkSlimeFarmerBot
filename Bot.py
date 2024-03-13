@@ -1,5 +1,6 @@
 from enum import Enum
 
+import cv2
 import pyautogui
 import pydirectinput
 import time
@@ -11,13 +12,13 @@ def main():
     currentSize = pyautogui.size()
     proportion = (3840/currentSize[0], 2160/currentSize[1])
     originalImage = Image.open('Images/lobby.png')
-    newImage = originalImage.resize((originalImage.size[0] * proportion[0], originalImage.size[1] * proportion[1]), Image.Resampling.BICUBIC)
+    newImage = cv2.resize(originalImage, (0, 0), fx=proportion[0], fy=proportion[1])
     newImage.save('Images/lobbyresize.png')
     originalImage = Image.open('Images/battleResult.png')
-    newImage = originalImage.resize((originalImage.size[0] * proportion[0], originalImage.size[1] * proportion[1]), Image.Resampling.BICUBIC)
+    newImage = cv2.resize(originalImage, (0, 0), fx=proportion[0], fy=proportion[1])
     newImage.save('Images/battleResultresize.png')
     originalImage = Image.open('Images/retryQuest.png')
-    newImage = originalImage.resize((originalImage.size[0] * proportion[0], originalImage.size[1] * proportion[1]), Image.Resampling.BICUBIC)
+    newImage = cv2.resize(originalImage, (0, 0), fx=proportion[0], fy=proportion[1])
     newImage.save('Images/retryQuestresize.png')
     while True:
         try:
