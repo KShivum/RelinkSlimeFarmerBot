@@ -11,15 +11,15 @@ from PIL import Image
 def main():
     currentSize = pyautogui.size()
     proportion = (3840/currentSize[0], 2160/currentSize[1])
-    originalImage = Image.open('Images/lobby.png')
+    originalImage = cv2.imread('Images/lobby.png')
     newImage = cv2.resize(originalImage, (0, 0), fx=proportion[0], fy=proportion[1])
-    newImage.save('Images/lobbyresize.png')
-    originalImage = Image.open('Images/battleResult.png')
+    cv2.imwrite('Images/lobbyresize.png', newImage)
+    originalImage = cv2.imread('Images/battleResult.png')
     newImage = cv2.resize(originalImage, (0, 0), fx=proportion[0], fy=proportion[1])
-    newImage.save('Images/battleResultresize.png')
-    originalImage = Image.open('Images/retryQuest.png')
+    cv2.imwrite('Images/battleResultresize.png', newImage)
+    originalImage = cv2.imread('Images/retryQuest.png')
     newImage = cv2.resize(originalImage, (0, 0), fx=proportion[0], fy=proportion[1])
-    newImage.save('Images/retryQuestresize.png')
+    cv2.imwrite('Images/retryQuestresize.png', newImage)
     while True:
         try:
             lobby = pyautogui.locateOnScreen('Images/lobbyresize.png', confidence=0.6)
